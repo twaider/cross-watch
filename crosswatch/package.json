@@ -1,0 +1,46 @@
+{
+  "name": "crosswatch",
+  "author": "MakeAwesomeHappen",
+  "version": "1.0.0",
+  "keywords": [
+    "watchface",
+    "cross",
+    "face",
+    "crossface"
+  ],
+  "private": true,
+  "dependencies": {
+    "pebble-clay": "^1.0.1"
+  },
+  "pebble": {
+    "displayName": "crosswatch",
+    "uuid": "5f147df6-15e3-42ec-ad05-27e232d947bc",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "targetPlatforms": [
+      "aplite",
+      "basalt",
+      "chalk"
+    ],
+    "capabilities": [
+      "location",
+      "configurable"
+    ],
+    "watchapp": {
+      "watchface": true
+    },
+    "messageKeys": [
+      "TEMPERATURE",
+      "UNITS",
+      "ICON",
+      "BACKGROUND_COLOR",
+      "WEATHER_ON",
+      "BACKGROUND_ON",
+      "LOCATION",
+      "WEATHER_SAFEMODE"
+    ],
+    "resources": {
+      "media": []
+    }
+  }
+}
