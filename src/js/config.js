@@ -17,13 +17,13 @@ module.exports = [
       {
         "type": "toggle",
         "messageKey": "BACKGROUND_ON",
-        "label": "Enable Custom background",
+        "label": "Enable Custom Hours Color",
         "defaultValue": false
       },
       {
         "type": "color",
         "messageKey": "BACKGROUND_COLOR",
-        "defaultValue": "0xFF0000",
+        "defaultValue": "0x0055FF",
         "label": "Background Color"
       }
     ]
@@ -44,12 +44,12 @@ module.exports = [
       {
         "type": "toggle",
         "messageKey": "WEATHER_SAFEMODE",
-        "label": "Enable Battery Mode",
+        "label": "Enable Battery Saver",
         "defaultValue": true
       },
       {
         "type": "text",
-        "defaultValue": "Battery Mode will pause weather updates during the night (between 00:00 and 06:00).",
+        "defaultValue": "Battery Saver will pause weather updates during the night (between 00:00 and 06:00)",
       },
       {
         "type": "toggle",

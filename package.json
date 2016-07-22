@@ -3,6 +3,10 @@
     "dependencies": {
         "pebble-clay": "^1.0.1"
     },
+    "scripts": {
+        "emulator": "pebble build && pebble install --emulator basalt",
+        "cloudpebble": "pebble build && pebble install --cloudpebble"
+    },
     "keywords": [
         "watchface",
         "cross",
@@ -32,7 +36,7 @@
             "media": [
                 {
                     "file": "fonts/Droid.ttf",
-                    "name": "FONT_DROID_24",
+                    "name": "FONT_DROID_26",
                     "targetPlatforms": null,
                     "type": "font"
                 },

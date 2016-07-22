@@ -82,11 +82,8 @@ static void inbox_received_callback(DictionaryIterator *iterator,
                temperature);
     }
 
-    snprintf(icon_buffer, sizeof(icon_buffer), "%s %s",
-             icon_tuple->value->cstring, temperature_buffer);
-
     // Set temp and icon to text layers
-    text_layer_set_text(s_weather_layer, icon_buffer);
+    text_layer_set_text(s_weather_layer, temperature_buffer);
   }
 
   // If weather disabled, clear weather layers
@@ -102,7 +99,7 @@ static void inbox_received_callback(DictionaryIterator *iterator,
     // Set background color if enabled, otherwise we load the default one - red
     background_color = background_on_conf
                            ? (int)background_color_tuple->value->int32
-                           : 0xFF0000;
+                           : 0x0055FF;
     persist_write_int(MESSAGE_KEY_BACKGROUND_COLOR, background_color);
 
     // Redraw
@@ -135,9 +132,9 @@ static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
 static void tick_handler(struct tm *tick_time, TimeUnits changed) {
   static bool in_interval = true;
 
-  strftime(s_last_date, sizeof(s_last_date), "%a %d", tick_time);
+  strftime(s_last_date, sizeof(s_last_date), "%d %a", tick_time);
   strftime(s_last_hour, sizeof(s_last_hour),
-           clock_is_24h_style() ? "%H" : "%I:%M", tick_time); // :%M
+           clock_is_24h_style() ? "%H" : "%I:%M", tick_time);
   strftime(s_last_minute, sizeof(s_last_minute), "%M", tick_time);
 
   if (weather_safemode_conf) {
@@ -170,9 +167,9 @@ static void tick_handler(struct tm *tick_time, TimeUnits changed) {
 static void update_proc(Layer *layer, GContext *ctx) {
   // Color background?
   GRect bounds = layer_get_bounds(layer);
-  GRect block1 = GRect(0, 0, bounds.size.w, 50);
-  GRect block2 = GRect(0, 50, bounds.size.w, 50);
-  GRect divider = GRect(bounds.size.w / 2 - 4, 146, 6, 6);
+  // GRect block1 = GRect(0, 0, bounds.size.w, 50);
+  // GRect block2 = GRect(0, 50, bounds.size.w, 50);
+  // GRect divider = GRect(bounds.size.w / 2 - 4, 146, 6, 6);
   GRect battery_bg = GRect(bounds.size.w / 3, 148, bounds.size.w / 3, 50);
 
   graphics_context_set_antialiased(ctx, ANTIALIASING);
@@ -184,44 +181,26 @@ static void update_proc(Layer *layer, GContext *ctx) {
   text_layer_set_text(s_hour_layer, s_last_hour);
   text_layer_set_text(s_minute_layer, s_last_minute);
 
+  // If color screen set text color
+  if (COLORS) {
+    text_layer_set_text_color(s_hour_layer, GColorFromHEX(background_color));
+  }
+
   // White clockface
   graphics_context_set_fill_color(ctx, GColorWhite);
 
-  // Create first block
-  graphics_context_set_fill_color(ctx, GColorBlack);
   graphics_context_set_stroke_color(ctx, GColorBlack);
-  graphics_fill_rect(ctx, block1, 0, GCornerNone);
-  graphics_draw_rect(ctx, block1);
+  graphics_context_set_stroke_width(ctx, 2);
 
-  // Create second block
-  graphics_context_set_fill_color(ctx, GColorLightGray);
-  graphics_context_set_stroke_color(ctx, GColorLightGray);
-  graphics_fill_rect(ctx, block2, 0, GCornerNone);
-  graphics_draw_rect(ctx, block2);
+  // Draw first line
+  GPoint line1Start = GPoint(18, 28);
+  GPoint line1End = GPoint(125, 140);
+  graphics_draw_line(ctx, line1Start, line1End);
 
-  // Create time divider
-  graphics_context_set_fill_color(ctx, GColorBlack);
-  graphics_fill_rect(ctx, divider, 0, GCornerNone);
-  graphics_context_set_stroke_color(ctx, GColorBlack);
-  graphics_draw_rect(ctx, divider);
-
-  for (int i = 0; i < bounds.size.w; i++) {
-    if (i % 4 == 0) {
-      GRect pixel = GRect(i, 49, 2, 2);
-
-      graphics_context_set_fill_color(ctx, GColorWhite);
-      graphics_context_set_stroke_color(ctx, GColorWhite);
-      graphics_fill_rect(ctx, pixel, 0, GCornerNone);
-      graphics_draw_rect(ctx, pixel);
-
-      GRect pixel2 = GRect(i, 100, 2, 2);
-
-      graphics_context_set_fill_color(ctx, GColorDarkGray);
-      graphics_context_set_stroke_color(ctx, GColorDarkGray);
-      graphics_fill_rect(ctx, pixel2, 0, GCornerNone);
-      graphics_draw_rect(ctx, pixel2);
-    }
-  }
+  // Draw second line
+  GPoint line2Start = GPoint(125, 28);
+  GPoint line2End = GPoint(18, 140);
+  graphics_draw_line(ctx, line2Start, line2End);
 }
 
 static void window_load(Window *window) {
@@ -238,43 +217,46 @@ static void window_load(Window *window) {
 
   // Create time Layer
   s_hour_layer = text_layer_create(
-      GRect(0, PBL_IF_ROUND_ELSE(100, 100), window_bounds.size.w / 2 - 5, 55));
-  s_minute_layer = text_layer_create(GRect(window_bounds.size.w / 2 + 10,
-                                           PBL_IF_ROUND_ELSE(100, 100),
-                                           window_bounds.size.w / 2 - 5, 55));
+      GRect(0, PBL_IF_ROUND_ELSE(5, 5), window_bounds.size.w, 60));
+
+  s_minute_layer = text_layer_create(
+      GRect(0, PBL_IF_ROUND_ELSE(100, 100), window_bounds.size.w, 60));
 
   // Style the time text
   text_layer_set_background_color(s_hour_layer, GColorClear);
-  text_layer_set_text_color(s_hour_layer, GColorBlack);
-  text_layer_set_text_alignment(s_hour_layer, GTextAlignmentRight);
+  text_layer_set_text_color(s_hour_layer, GColorBlueMoon);
+  text_layer_set_text_alignment(s_hour_layer, GTextAlignmentCenter);
 
   text_layer_set_background_color(s_minute_layer, GColorClear);
   text_layer_set_text_color(s_minute_layer, GColorBlack);
-  text_layer_set_text_alignment(s_minute_layer, GTextAlignmentLeft);
+  text_layer_set_text_alignment(s_minute_layer, GTextAlignmentCenter);
 
   // Create date Layer
-  s_date_layer = text_layer_create(
-      GRect(0, PBL_IF_ROUND_ELSE(10, 10), window_bounds.size.w, 28));
+  s_date_layer = text_layer_create(GRect(
+      18, PBL_IF_ROUND_ELSE(window_bounds.size.w / 2, window_bounds.size.w / 2 - 2),
+      window_bounds.size.w, 60));
 
   // Style the date text
   text_layer_set_background_color(s_date_layer, GColorClear);
-  text_layer_set_text_color(s_date_layer, GColorWhite);
-  text_layer_set_text_alignment(s_date_layer, GTextAlignmentCenter);
+  text_layer_set_text_color(s_date_layer, GColorDarkGray);
+  text_layer_set_text_alignment(s_date_layer, GTextAlignmentLeft);
 
   // Create weather icon Layer
-  s_weather_layer = text_layer_create(
-      GRect(0, PBL_IF_ROUND_ELSE(60, 60), window_bounds.size.w, 28));
+  s_weather_layer = text_layer_create(GRect(
+      85, PBL_IF_ROUND_ELSE(window_bounds.size.w / 2, window_bounds.size.w / 2 - 2),
+      41, 28));
 
   // Style the icon
   text_layer_set_background_color(s_weather_layer, GColorClear);
-  text_layer_set_text_color(s_weather_layer, GColorBlack);
-  text_layer_set_text_alignment(s_weather_layer, GTextAlignmentCenter);
+  text_layer_set_text_color(s_weather_layer, GColorDarkGray);
+  // text_layer_set_background_color(s_weather_layer, GColorBlack);
+  text_layer_set_text_alignment(s_weather_layer, GTextAlignmentRight);
 
   // Set fonts
-  s_time_font = fonts_load_custom_font(
-      resource_get_handle(RESOURCE_ID_FONT_PIXEL_MIL_52));
-  s_weather_font = fonts_load_custom_font(
-      resource_get_handle(RESOURCE_ID_FONT_PIXEL_MIL_24));
+  s_time_font =
+      fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_DROID_56));
+  s_weather_font =
+      fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_DROID_26));
 
   text_layer_set_font(s_hour_layer, s_time_font);
   text_layer_set_font(s_minute_layer, s_time_font);
@@ -328,7 +310,7 @@ static void init() {
                            : false;
   background_color = persist_exists(MESSAGE_KEY_BACKGROUND_COLOR)
                          ? persist_read_int(MESSAGE_KEY_BACKGROUND_COLOR)
-                         : 0xFF0000;
+                         : 0x0055FF;
 
   window_set_window_handlers(s_main_window,
                              (WindowHandlers){
