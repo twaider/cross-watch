@@ -1,46 +1,59 @@
 {
-  "name": "crosswatch",
-  "author": "MakeAwesomeHappen",
-  "version": "1.0.0",
-  "keywords": [
-    "watchface",
-    "cross",
-    "face",
-    "crossface"
-  ],
-  "private": true,
-  "dependencies": {
-    "pebble-clay": "^1.0.1"
-  },
-  "pebble": {
-    "displayName": "crosswatch",
-    "uuid": "5f147df6-15e3-42ec-ad05-27e232d947bc",
-    "sdkVersion": "3",
-    "enableMultiJS": true,
-    "targetPlatforms": [
-      "aplite",
-      "basalt",
-      "chalk"
-    ],
-    "capabilities": [
-      "location",
-      "configurable"
-    ],
-    "watchapp": {
-      "watchface": true
+    "author": "twaider",
+    "dependencies": {
+        "pebble-clay": "^1.0.1"
     },
-    "messageKeys": [
-      "TEMPERATURE",
-      "UNITS",
-      "ICON",
-      "BACKGROUND_COLOR",
-      "WEATHER_ON",
-      "BACKGROUND_ON",
-      "LOCATION",
-      "WEATHER_SAFEMODE"
+    "keywords": [
+        "watchface",
+        "cross",
+        "face",
+        "crossface"
     ],
-    "resources": {
-      "media": []
-    }
-  }
+    "name": "crosswatch",
+    "pebble": {
+        "capabilities": [
+            "location",
+            "configurable"
+        ],
+        "displayName": "crosswatch",
+        "enableMultiJS": true,
+        "messageKeys": [
+            "TEMPERATURE",
+            "UNITS",
+            "ICON",
+            "BACKGROUND_COLOR",
+            "WEATHER_ON",
+            "BACKGROUND_ON",
+            "LOCATION",
+            "WEATHER_SAFEMODE"
+        ],
+        "projectType": "native",
+        "resources": {
+            "media": [
+                {
+                    "file": "fonts/Droid.ttf",
+                    "name": "FONT_DROID_24",
+                    "targetPlatforms": null,
+                    "type": "font"
+                },
+                {
+                    "file": "fonts/Droid.ttf",
+                    "name": "FONT_DROID_56",
+                    "targetPlatforms": null,
+                    "type": "font"
+                }
+            ]
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "aplite",
+            "basalt",
+            "chalk"
+        ],
+        "uuid": "5f147df6-15e3-42ec-ad05-27e232d947bc",
+        "watchapp": {
+            "watchface": true
+        }
+    },
+    "version": "1.0.0"
 }
