@@ -3,11 +3,6 @@
     "dependencies": {
         "pebble-clay": "^1.0.1"
     },
-    "scripts": {
-        "emulator": "pebble build && pebble install --emulator basalt",
-        "config": "pebble emu-app-config",
-        "cloudpebble": "pebble build && pebble install --cloudpebble"
-    },
     "keywords": [
         "watchface",
         "cross",
@@ -42,6 +37,7 @@
                     "type": "font"
                 },
                 {
+                    "characterRegex": "[0-9:A-Za-z ]",
                     "file": "fonts/Droid.ttf",
                     "name": "FONT_DROID_56",
                     "targetPlatforms": null,
@@ -51,9 +47,7 @@
         },
         "sdkVersion": "3",
         "targetPlatforms": [
-            "aplite",
-            "basalt",
-            "chalk"
+            "basalt"
         ],
         "uuid": "5f147df6-15e3-42ec-ad05-27e232d947bc",
         "watchapp": {
