@@ -25,6 +25,7 @@ static GPoint s_center;
 static char s_last_hour[8];
 static char s_last_minute[8];
 static char s_last_date[16];
+static char s_last_year[16];
 static int background_color;
 
 static bool weather_units_conf = false;
@@ -88,7 +89,7 @@ static void inbox_received_callback(DictionaryIterator *iterator,
 
   // If weather disabled, clear weather layers
   if (!weather_on_conf) {
-    text_layer_set_text(s_weather_layer, "");
+    text_layer_set_text(s_weather_layer, s_last_year);
   }
 
   // If background color and enabled
@@ -133,6 +134,8 @@ static void tick_handler(struct tm *tick_time, TimeUnits changed) {
   static bool in_interval = true;
 
   strftime(s_last_date, sizeof(s_last_date), "%d %a", tick_time);
+  strftime(s_last_year, sizeof(s_last_year), "%Y", tick_time);
+
   strftime(s_last_hour, sizeof(s_last_hour),
            clock_is_24h_style() ? "%H" : "%I:%M", tick_time);
   strftime(s_last_minute, sizeof(s_last_minute), "%M", tick_time);
@@ -180,6 +183,10 @@ static void update_proc(Layer *layer, GContext *ctx) {
   // Set time
   text_layer_set_text(s_hour_layer, s_last_hour);
   text_layer_set_text(s_minute_layer, s_last_minute);
+
+  if (!weather_on_conf) {
+    text_layer_set_text(s_weather_layer, s_last_year);
+  }
 
   // If color screen set text color
   if (COLORS) {
@@ -233,7 +240,8 @@ static void window_load(Window *window) {
 
   // Create date Layer
   s_date_layer = text_layer_create(GRect(
-      18, PBL_IF_ROUND_ELSE(window_bounds.size.w / 2, window_bounds.size.w / 2 - 2),
+      18,
+      PBL_IF_ROUND_ELSE(window_bounds.size.w / 2, window_bounds.size.w / 2 - 2),
       window_bounds.size.w, 60));
 
   // Style the date text
@@ -243,7 +251,8 @@ static void window_load(Window *window) {
 
   // Create weather icon Layer
   s_weather_layer = text_layer_create(GRect(
-      85, PBL_IF_ROUND_ELSE(window_bounds.size.w / 2, window_bounds.size.w / 2 - 2),
+      85,
+      PBL_IF_ROUND_ELSE(window_bounds.size.w / 2, window_bounds.size.w / 2 - 2),
       41, 28));
 
   // Style the icon
