@@ -133,7 +133,7 @@ static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
 static void tick_handler(struct tm *tick_time, TimeUnits changed) {
   static bool in_interval = true;
 
-  strftime(s_last_date, sizeof(s_last_date), "%d %a", tick_time);
+  strftime(s_last_date, sizeof(s_last_date), "%d\n%a", tick_time);
   strftime(s_last_year, sizeof(s_last_year), "%Y", tick_time);
 
   strftime(s_last_hour, sizeof(s_last_hour),
