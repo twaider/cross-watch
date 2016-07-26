@@ -76,10 +76,10 @@ static void inbox_received_callback(DictionaryIterator *iterator,
     temperature = (float)temp_tuple->value->int32;
 
     if (weather_units_conf) {
-      snprintf(temperature_buffer, sizeof(temperature_buffer), "%d F",
+      snprintf(temperature_buffer, sizeof(temperature_buffer), "%d°F",
                temperature);
     } else {
-      snprintf(temperature_buffer, sizeof(temperature_buffer), "%d C",
+      snprintf(temperature_buffer, sizeof(temperature_buffer), "%d°C",
                temperature);
     }
 
@@ -239,10 +239,10 @@ static void window_load(Window *window) {
   text_layer_set_text_alignment(s_minute_layer, GTextAlignmentCenter);
 
   // Create date Layer
-  s_date_layer = text_layer_create(GRect(
-      18,
-      PBL_IF_ROUND_ELSE(window_bounds.size.w / 2, window_bounds.size.w / 2 - 2),
-      window_bounds.size.w, 60));
+  s_date_layer = text_layer_create(
+      GRect(18, PBL_IF_ROUND_ELSE(window_bounds.size.w / 2 - 15,
+                                  window_bounds.size.w / 2 - 15),
+            window_bounds.size.w, 60));
 
   // Style the date text
   text_layer_set_background_color(s_date_layer, GColorClear);
