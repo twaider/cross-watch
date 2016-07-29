@@ -134,7 +134,7 @@ static void tick_handler(struct tm *tick_time, TimeUnits changed) {
   static bool in_interval = true;
 
   strftime(s_last_date, sizeof(s_last_date),
-           PBL_IF_ROUND_ELSE("%d %a", "%d\n%a"), tick_time);
+           PBL_IF_ROUND_ELSE("%d %a", "%d %a"), tick_time);
   strftime(s_last_year, sizeof(s_last_year), "%Y", tick_time);
 
   strftime(s_last_hour, sizeof(s_last_hour), "%H", tick_time);
@@ -246,7 +246,7 @@ static void window_load(Window *window) {
   s_date_layer =
       text_layer_create(GRect(PBL_IF_ROUND_ELSE(26, 18),
                               PBL_IF_ROUND_ELSE(window_bounds.size.w / 2 - 13,
-                                                window_bounds.size.w / 2 - 15),
+                                                window_bounds.size.w / 2 - 2),
                               window_bounds.size.w, 60));
 
   // Style the date text

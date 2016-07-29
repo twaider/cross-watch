@@ -3,13 +3,6 @@
     "dependencies": {
         "pebble-clay": "^1.0.1"
     },
-    "scripts": {
-        "emulator": "pebble build && pebble install --emulator chalk -vvvv",
-        "config": "pebble emu-app-config",
-        "clean": "pebble clean",
-        "logs": "pebble logs",
-        "cloudpebble": "pebble build && pebble install --cloudpebble -vvvv"
-    },
     "keywords": [
         "watchface",
         "cross",
@@ -38,16 +31,16 @@
         "resources": {
             "media": [
                 {
-                    "characterRegex": "[0-9:A-Za-z\u00b0 ]",
+                    "characterRegex": "[0-9]",
                     "file": "fonts/Droid.ttf",
-                    "name": "FONT_DROID_26",
+                    "name": "FONT_DROID_56",
                     "targetPlatforms": null,
                     "type": "font"
                 },
                 {
-                    "characterRegex": "[0-9]",
+                    "characterRegex": "[0-9:A-Za-z\u00b0 ]",
                     "file": "fonts/Droid.ttf",
-                    "name": "FONT_DROID_56",
+                    "name": "FONT_DROID_26",
                     "targetPlatforms": null,
                     "type": "font"
                 }
@@ -55,14 +48,14 @@
         },
         "sdkVersion": "3",
         "targetPlatforms": [
+            "aplite",
             "basalt",
-            "chalk",
-            "aplite"
+            "chalk"
         ],
         "uuid": "5f147df6-15e3-42ec-ad05-27e232d947bc",
         "watchapp": {
             "watchface": true
         }
     },
-    "version": "1.2.0"
+    "version": "1.3.0"
 }
