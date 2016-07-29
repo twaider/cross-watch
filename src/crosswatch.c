@@ -133,7 +133,8 @@ static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
 static void tick_handler(struct tm *tick_time, TimeUnits changed) {
   static bool in_interval = true;
 
-  strftime(s_last_date, sizeof(s_last_date), "%d\n%a", tick_time);
+  strftime(s_last_date, sizeof(s_last_date),
+           PBL_IF_ROUND_ELSE("%d %a", "%d\n%a"), tick_time);
   strftime(s_last_year, sizeof(s_last_year), "%Y", tick_time);
 
   strftime(s_last_hour, sizeof(s_last_hour), "%H", tick_time);
@@ -169,9 +170,6 @@ static void tick_handler(struct tm *tick_time, TimeUnits changed) {
 static void update_proc(Layer *layer, GContext *ctx) {
   // Color background?
   GRect bounds = layer_get_bounds(layer);
-  // GRect block1 = GRect(0, 0, bounds.size.w, 50);
-  // GRect block2 = GRect(0, 50, bounds.size.w, 50);
-  // GRect divider = GRect(bounds.size.w / 2 - 4, 146, 6, 6);
   GRect battery_bg = GRect(bounds.size.w / 3, 148, bounds.size.w / 3, 50);
 
   graphics_context_set_antialiased(ctx, ANTIALIASING);
@@ -199,13 +197,20 @@ static void update_proc(Layer *layer, GContext *ctx) {
   graphics_context_set_stroke_width(ctx, 2);
 
   // Draw first line
-  GPoint line1Start = GPoint(18, 28);
-  GPoint line1End = GPoint(125, 140);
+  GPoint line1Start = GPoint(PBL_IF_ROUND_ELSE(bounds.size.w / 4, 18),
+                             PBL_IF_ROUND_ELSE(bounds.size.h / 4, 28));
+  GPoint line1End =
+      GPoint(PBL_IF_ROUND_ELSE(bounds.size.w - bounds.size.w / 4, 125),
+             PBL_IF_ROUND_ELSE(bounds.size.h - bounds.size.h / 4, 140));
   graphics_draw_line(ctx, line1Start, line1End);
 
   // Draw second line
-  GPoint line2Start = GPoint(125, 28);
-  GPoint line2End = GPoint(18, 140);
+  GPoint line2Start =
+      GPoint(PBL_IF_ROUND_ELSE(bounds.size.w - bounds.size.w / 4, 125),
+             PBL_IF_ROUND_ELSE(bounds.size.h / 4, 28));
+  GPoint line2End =
+      GPoint(PBL_IF_ROUND_ELSE(bounds.size.w / 4, 18),
+             PBL_IF_ROUND_ELSE(bounds.size.h - bounds.size.h / 4, 140));
   graphics_draw_line(ctx, line2Start, line2End);
 }
 
@@ -223,10 +228,10 @@ static void window_load(Window *window) {
 
   // Create time Layer
   s_hour_layer = text_layer_create(
-      GRect(0, PBL_IF_ROUND_ELSE(5, 5), window_bounds.size.w, 60));
+      GRect(0, PBL_IF_ROUND_ELSE(7, 5), window_bounds.size.w, 60));
 
   s_minute_layer = text_layer_create(
-      GRect(0, PBL_IF_ROUND_ELSE(100, 100), window_bounds.size.w, 60));
+      GRect(0, PBL_IF_ROUND_ELSE(110, 100), window_bounds.size.w, 60));
 
   // Style the time text
   text_layer_set_background_color(s_hour_layer, GColorClear);
@@ -238,10 +243,11 @@ static void window_load(Window *window) {
   text_layer_set_text_alignment(s_minute_layer, GTextAlignmentCenter);
 
   // Create date Layer
-  s_date_layer = text_layer_create(
-      GRect(18, PBL_IF_ROUND_ELSE(window_bounds.size.w / 2 - 15,
-                                  window_bounds.size.w / 2 - 15),
-            window_bounds.size.w, 60));
+  s_date_layer =
+      text_layer_create(GRect(PBL_IF_ROUND_ELSE(26, 18),
+                              PBL_IF_ROUND_ELSE(window_bounds.size.w / 2 - 13,
+                                                window_bounds.size.w / 2 - 15),
+                              window_bounds.size.w, 60));
 
   // Style the date text
   text_layer_set_background_color(s_date_layer, GColorClear);
@@ -249,10 +255,11 @@ static void window_load(Window *window) {
   text_layer_set_text_alignment(s_date_layer, GTextAlignmentLeft);
 
   // Create weather icon Layer
-  s_weather_layer = text_layer_create(GRect(
-      85,
-      PBL_IF_ROUND_ELSE(window_bounds.size.w / 2, window_bounds.size.w / 2 - 2),
-      41, 28));
+  s_weather_layer = text_layer_create(
+      GRect(PBL_IF_ROUND_ELSE(window_bounds.size.w / 2 + 24, 85),
+            PBL_IF_ROUND_ELSE(window_bounds.size.w / 2 - 13,
+                              window_bounds.size.w / 2 - 2),
+            41, 28));
 
   // Style the icon
   text_layer_set_background_color(s_weather_layer, GColorClear);

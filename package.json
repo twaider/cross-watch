@@ -4,7 +4,7 @@
         "pebble-clay": "^1.0.1"
     },
     "scripts": {
-        "emulator": "pebble build && pebble install --emulator basalt -vvvv",
+        "emulator": "pebble build && pebble install --emulator chalk -vvvv",
         "config": "pebble emu-app-config",
         "clean": "pebble clean",
         "logs": "pebble logs",
@@ -55,7 +55,9 @@
         },
         "sdkVersion": "3",
         "targetPlatforms": [
-            "basalt"
+            "basalt",
+            "chalk",
+            "aplite"
         ],
         "uuid": "5f147df6-15e3-42ec-ad05-27e232d947bc",
         "watchapp": {
