@@ -3,13 +3,6 @@
     "dependencies": {
         "pebble-clay": "^1.0.1"
     },
-    "scripts": {
-        "emulator": "pebble build && pebble install --emulator basalt",
-        "config": "pebble emu-app-config",
-        "clean": "pebble clean",
-        "logs": "pebble logs",
-        "cloudpebble": "pebble build && pebble install --cloudpebble"
-    },
     "keywords": [
         "watchface",
         "cross",
@@ -38,15 +31,15 @@
         "resources": {
             "media": [
                 {
+                    "characterRegex": "[0-9:A-Za-z ]",
                     "file": "fonts/Droid.ttf",
-                    "name": "FONT_DROID_26",
+                    "name": "FONT_DROID_56",
                     "targetPlatforms": null,
                     "type": "font"
                 },
                 {
-                    "characterRegex": "[0-9:A-Za-z ]",
                     "file": "fonts/Droid.ttf",
-                    "name": "FONT_DROID_56",
+                    "name": "FONT_DROID_26",
                     "targetPlatforms": null,
                     "type": "font"
                 }

@@ -136,8 +136,7 @@ static void tick_handler(struct tm *tick_time, TimeUnits changed) {
   strftime(s_last_date, sizeof(s_last_date), "%d\n%a", tick_time);
   strftime(s_last_year, sizeof(s_last_year), "%Y", tick_time);
 
-  strftime(s_last_hour, sizeof(s_last_hour),
-           clock_is_24h_style() ? "%H" : "%I:%M", tick_time);
+  strftime(s_last_hour, sizeof(s_last_hour), "%H", tick_time);
   strftime(s_last_minute, sizeof(s_last_minute), "%M", tick_time);
 
   if (weather_safemode_conf) {
