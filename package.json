@@ -38,13 +38,14 @@
         "resources": {
             "media": [
                 {
+                    "characterRegex": "[0-9:A-Za-z\u00b0 ]",
                     "file": "fonts/Droid.ttf",
                     "name": "FONT_DROID_26",
                     "targetPlatforms": null,
                     "type": "font"
                 },
                 {
-                    "characterRegex": "[0-9:A-Za-z ]",
+                    "characterRegex": "[0-9]",
                     "file": "fonts/Droid.ttf",
                     "name": "FONT_DROID_56",
                     "targetPlatforms": null,
