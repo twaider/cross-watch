@@ -4,11 +4,11 @@
         "pebble-clay": "^1.0.1"
     },
     "scripts": {
-        "emulator": "pebble build && pebble install --emulator basalt",
+        "emulator": "pebble build && pebble install --emulator basalt -vvvv",
         "config": "pebble emu-app-config",
         "clean": "pebble clean",
         "logs": "pebble logs",
-        "cloudpebble": "pebble build && pebble install --cloudpebble"
+        "cloudpebble": "pebble build && pebble install --cloudpebble -vvvv"
     },
     "keywords": [
         "watchface",
