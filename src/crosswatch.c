@@ -137,7 +137,8 @@ static void tick_handler(struct tm *tick_time, TimeUnits changed) {
            PBL_IF_ROUND_ELSE("%d %a", "%d %a"), tick_time);
   strftime(s_last_year, sizeof(s_last_year), "%Y", tick_time);
 
-  strftime(s_last_hour, sizeof(s_last_hour), "%H", tick_time);
+  strftime(s_last_hour, sizeof(s_last_hour), clock_is_24h_style() ? "%H" : "%I",
+           tick_time);
   strftime(s_last_minute, sizeof(s_last_minute), "%M", tick_time);
 
   if (weather_safemode_conf) {
@@ -244,7 +245,7 @@ static void window_load(Window *window) {
 
   // Create date Layer
   s_date_layer =
-      text_layer_create(GRect(PBL_IF_ROUND_ELSE(26, 18),
+      text_layer_create(GRect(PBL_IF_ROUND_ELSE(26, 15),
                               PBL_IF_ROUND_ELSE(window_bounds.size.w / 2 - 13,
                                                 window_bounds.size.w / 2 - 2),
                               window_bounds.size.w, 60));
@@ -256,7 +257,7 @@ static void window_load(Window *window) {
 
   // Create weather icon Layer
   s_weather_layer = text_layer_create(
-      GRect(PBL_IF_ROUND_ELSE(window_bounds.size.w / 2 + 24, 85),
+      GRect(PBL_IF_ROUND_ELSE(window_bounds.size.w / 2 + 24, 88),
             PBL_IF_ROUND_ELSE(window_bounds.size.w / 2 - 13,
                               window_bounds.size.w / 2 - 2),
             41, 28));
